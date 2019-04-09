@@ -1,29 +1,25 @@
-const dbConnect = require("../dbConnect");
-const URI = require("../settings").DEV_DB_URI;
+const User = require('../models/user.js');
 
-function setURI(uri) {
-	URI = uri;
-}
-
-const User = require("../models/user.js");
-
-function addUser(fName, lName, username, password, email, job) {
-	throw Error("not implemented");
+function addUser(firstName, lastName, userName, password, email) {
+	return new User({
+		firstName,
+		lastName,
+		userName,
+		password,
+		email
+	}).save();
 }
 
 function getAllUsers() {
-	throw Error("not implemented");
+	return User.find({}).exec();
 }
 
-function findByUserName(username) {
-	dbConnect.connect(URI);
-	User.findOne({ username }, function(err, user) {
-		if (err) {
-			return "user not found";
-		}
-		return user;
-	});
-	dbConnect.disconnect();
+function findByUserName(userName) {
+	return User.findOne({ userName }).exec();
 }
 
-module.exports = { addUser, getAllUsers, findByUserName, setURI };
+function findById(_id) {
+	return User.findOne({ _id });
+}
+
+module.exports = { addUser, getAllUsers, findByUserName, findById };

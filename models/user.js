@@ -28,5 +28,4 @@ UserSchema.pre('update', function(next) {
 });
 
 const User = mongoose.model('User', UserSchema);
-
 module.exports = User;
