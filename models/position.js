@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const SECONDS = 1;
-const EXPIRES = 60 * SECONDS;
+const EXPIRES = 600 * SECONDS;
 
 const PositionSchema = new Schema({
 	//Make sure that next line reflects your User-model

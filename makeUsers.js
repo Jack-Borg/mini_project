@@ -13,13 +13,16 @@ function positionCreator(lon, lat, userId, dateInFuture) {
 	return posDetail;
 }
 async function makeTestData() {
+	await User.deleteMany({});
+	await Position.deleteMany({});
+	await LocationBlog.deleteMany({});
 	console.log('Making users');
 	try {
 		const userInofs = [
 			{
 				firstName: 'a',
 				lastName: 'a',
-				userName: 'a',
+				username: 'a',
 				password: 'a',
 				email: 'a@b.c',
 				job: [
@@ -30,7 +33,7 @@ async function makeTestData() {
 			{
 				firstName: 'b',
 				lastName: 'b',
-				userName: 'b',
+				username: 'b',
 				password: 'b',
 				email: 'b@b.c',
 				job: [
@@ -41,7 +44,7 @@ async function makeTestData() {
 			{
 				firstName: 'c',
 				lastName: 'c',
-				userName: 'c',
+				username: 'c',
 				password: 'c',
 				email: 'c@b.c',
 				job: [
@@ -50,15 +53,13 @@ async function makeTestData() {
 				]
 			}
 		];
-		await User.deleteMany({});
-		await Position.deleteMany({});
-		await LocationBlog.deleteMany({});
 
 		const users = await User.insertMany(userInofs);
 
 		const positions = [
-			positionCreator(10, 11, users[0]._id),
-			positionCreator(11, 12, users[1]._id, true)
+			// positionCreator(10, 11, users[0]._id, true),
+			positionCreator(15, 10, users[1]._id, true),
+			positionCreator(18, 17, users[2]._id, true)
 		];
 		const blogs = [
 			{ info: 'Cool Place', pos: { longitude: 26, latitude: 57 }, author: users[0]._id }

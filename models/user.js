@@ -10,7 +10,7 @@ const JobSchema = new Schema({
 const UserSchema = new Schema({
 	firstName: String,
 	lastName: String,
-	userName: { type: String, unique: true, required: true },
+	username: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
 	email: { type: String, required: true },
 	job: [JobSchema],
@@ -19,7 +19,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function(next) {
-	this.password = 'Hash please and add some salt' + this.password;
+	this.password = 'Hash please and add some salt ' + this.password;
 	next();
 });
 UserSchema.pre('update', function(next) {
