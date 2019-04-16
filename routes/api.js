@@ -8,7 +8,8 @@ router.post("/login", async function(req, res, next) {
 	const { username, password, longitude, latitude, distance } = req.body;
 	const response = await loginFacade.login(username, password, longitude, latitude, distance);
 	res.statusCode = response.statusCode;
-	res.json({ friends: response.friends, msg: response.msg });
+	// res.json({ user: response.user, friends: response.friends, msg: response.msg });
+	res.json(({ user, friends, msg } = response));
 });
 
 router.get("/user/all", async function(req, res, next) {
