@@ -5,7 +5,7 @@ async function login(username, password, longitude, latitude, distance) {
 	const user = await User.findOne({ username }).exec();
 
 	//user.password will be undefined if user is not found
-	if (user.password !== password) {
+	if (!user || user.password !== password) {
 		return { msg: "wrong username or password", statusCode: 403 };
 	}
 
