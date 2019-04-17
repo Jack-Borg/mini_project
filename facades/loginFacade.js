@@ -18,14 +18,15 @@ async function login(username, password, longitude, latitude, distance) {
 	).exec();
 
 	const nearbyFriends = await findNearby(coordinates, distance);
-
+	console.log("friends", nearbyFriends);
 	return {
 		user,
-		friends: nearbyFriends.map((user) => {
+		friends: nearbyFriends.map((friend) => {
 			return {
-				username: user.username,
-				latitude: user.loc.coordinates[0],
-				longitude: user.loc.coordinates[1]
+				id: friend._id,
+				username: friend.user.username,
+				latitude: friend.loc.coordinates[0],
+				longitude: friend.loc.coordinates[1]
 			};
 		}),
 		msg: "Logged in and found friends",
