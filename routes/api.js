@@ -32,6 +32,11 @@ router.post("/user/add", async function(req, res, next) {
 	res.json({ user: userFacade.addUser(firstName, lastName, username, password, email) });
 });
 
+router.get("/user/reset", async function(req, res, next) {
+	userFacade.makeUsers();
+	res.json("users reset");
+});
+
 router.get("/blog/all", async function(req, res, next) {
 	res.json({ blogs: await blogFacade.getAllBlogs() });
 });

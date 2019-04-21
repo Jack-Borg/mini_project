@@ -57,9 +57,9 @@ async function makeTestData() {
 		const users = await User.insertMany(userInofs);
 
 		const positions = [
-			// positionCreator(10, 11, users[0]._id, true),
-			positionCreator(12.5, 55.6, users[1]._id, true),
-			positionCreator(12.8, 55.9, users[2]._id, true)
+			positionCreator(12.523212432861328, 55.78120695355271, users[0]._id, true),
+			positionCreator(12.556171417236328, 55.78690207695228, users[1]._id, true),
+			positionCreator(12.508792877197266, 55.76971764625502, users[2]._id, true)
 		];
 		const blogs = [
 			{ info: "Cool Place", pos: { longitude: 26, latitude: 57 }, author: users[0]._id }
@@ -71,4 +71,4 @@ async function makeTestData() {
 		console.log(err);
 	}
 }
-makeTestData();
+module.exports = makeTestData;

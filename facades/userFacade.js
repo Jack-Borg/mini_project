@@ -1,4 +1,5 @@
 const User = require("../models/user.js");
+const makeUsers = require("../makeUsers");
 
 function addUser(firstName, lastName, username, password, email) {
 	return new User({
@@ -22,4 +23,4 @@ function findById(_id) {
 	return User.findOne({ _id });
 }
 
-module.exports = { addUser, getAllUsers, findByUsername, findById };
+module.exports = { addUser, getAllUsers, findByUsername, findById, makeUsers };
