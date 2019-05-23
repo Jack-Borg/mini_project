@@ -8,7 +8,8 @@ router.post("/login", async function(req, res, next) {
 	const { username, password, longitude, latitude, distance } = req.body;
 	const response = await loginFacade.login(username, password, longitude, latitude, distance);
 	res.statusCode = response.statusCode;
-	res.json({ friends: response.friends, msg: response.msg });
+	// res.json({ user: response.user, friends: response.friends, msg: response.msg });
+	res.json(({ user, friends, msg } = response));
 });
 
 router.get("/user/all", async function(req, res, next) {
@@ -29,6 +30,11 @@ router.get("/user/id", async function(req, res, next) {
 router.post("/user/add", async function(req, res, next) {
 	const { firstName, lastName, username, password, email } = req.body;
 	res.json({ user: userFacade.addUser(firstName, lastName, username, password, email) });
+});
+
+router.get("/user/reset", async function(req, res, next) {
+	userFacade.makeUsers();
+	res.json("users reset");
 });
 
 router.get("/blog/all", async function(req, res, next) {

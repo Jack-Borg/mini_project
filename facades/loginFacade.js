@@ -1,33 +1,35 @@
-const User = require('../models/user');
-const Position = require('../models/position');
+const User = require("../models/user");
+const Position = require("../models/position");
 
 async function login(username, password, longitude, latitude, distance) {
 	const user = await User.findOne({ username }).exec();
 
 	//user.password will be undefined if user is not found
-	if (user.password !== password) {
-		return { msg: 'wrong username or password', statusCode: 403 };
+	if (!user || user.password !== password) {
+		return { msg: "wrong username or password", statusCode: 403 };
 	}
 
 	const coordinates = [longitude, latitude];
 
 	await Position.findOneAndUpdate(
 		{ user: user._id },
-		{ user: user._id, created: Date.now(), loc: { type: 'Point', coordinates } },
+		{ user: user._id, created: Date.now(), loc: { type: "Point", coordinates } },
 		{ upsert: true, new: true }
 	).exec();
 
 	const nearbyFriends = await findNearby(coordinates, distance);
-
+	console.log("friends", nearbyFriends);
 	return {
-		friends: nearbyFriends.map(user => {
+		user,
+		friends: nearbyFriends.map((friend) => {
 			return {
-				username: user.username,
-				latitude: user.loc.coordinates[0],
-				longitude: user.loc.coordinates[1]
+				id: friend._id,
+				username: friend.user.username,
+				latitude: friend.loc.coordinates[0],
+				longitude: friend.loc.coordinates[1]
 			};
 		}),
-		msg: 'Logged in and found friends',
+		msg: "Logged in and found friends",
 		statusCode: 200
 	};
 }
@@ -36,13 +38,13 @@ async function findNearby(coordinates, distance) {
 	return await Position.find({
 		loc: {
 			$near: {
-				$geometry: { type: 'Point', coordinates },
+				$geometry: { type: "Point", coordinates },
 				$minDistance: 0.01,
 				$maxDistance: distance
 			}
 		}
 	})
-		.populate('user')
+		.populate("user")
 		.exec();
 }
 
