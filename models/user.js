@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const JobSchema = new Schema({
@@ -15,17 +15,17 @@ const UserSchema = new Schema({
 	email: { type: String, required: true },
 	job: [JobSchema],
 	created: { type: Date, default: Date.now },
-	lastUpdated: Date
+	lastUpdated: { type: Date, default: Date.now }
 });
 
-UserSchema.pre('save', function(next) {
-	this.password = 'Hash please and add some salt ' + this.password;
+UserSchema.pre("save", function(next) {
+	this.password = "Hash please and add some salt " + this.password;
 	next();
 });
-UserSchema.pre('update', function(next) {
+UserSchema.pre("update", function(next) {
 	this.update({}, { $set: { lastUpdated: new Date() } });
 	next();
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 module.exports = User;

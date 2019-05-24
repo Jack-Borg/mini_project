@@ -12,6 +12,12 @@ function findById(_id) {
 	return Blog.findOne({ _id });
 }
 
+function findByAuthorId(author) {
+	// const b = Blog.findOne({ author });
+	// return b;
+	throw Error("no work");
+}
+
 function likeBlog(userId, blogId) {
 	return Blog.findOneAndUpdate({ _id: blogId }, { $push: { likedBy: userId } }, { new: true });
 }
@@ -20,5 +26,6 @@ module.exports = {
 	addBlog,
 	getAllBlogs,
 	findById,
+	findByAuthorId,
 	likeBlog
 };
