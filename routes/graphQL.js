@@ -22,20 +22,12 @@ const schema = buildSchema(`
         company: String
         companyUrl: String
     }
-
-    input LoginInput{
-        username: String!
-        password: String!
-        longitude: Float!
-        latitude: Float!
-        distance: Int!
-    }
-
+    
     type LoginResponse{
         user: User
         friends: [Friend]
     }
-
+    
     type LocationBlog{
         _id: ID!
         info: String!
@@ -47,18 +39,42 @@ const schema = buildSchema(`
         created: String
         lastUpdated: String
     }
-
+    
     type Position{
         longitude: Float!
         latitude: Float!
     }
-
+    
     type Friend{
         username: String!
         latitude: Float!
         longitude: Float!
     }
 
+    input LoginInput{
+        username: String!
+        password: String!
+        longitude: Float!
+        latitude: Float!
+        distance: Int!
+    }
+
+    input LocationBlogInput{
+        info: String!
+        img: String!
+        longitude: Float!
+        latitude: Float!
+        author: ID!
+    }
+
+    input UserInput{
+        firstName: String!
+        lastName: String!
+        username: String!
+        password: String!
+        email: String!
+    }
+    
     type Query{
         getUserById(id: ID!): User
         getUserByUsername(username: String!): User
@@ -66,7 +82,13 @@ const schema = buildSchema(`
         login(input: LoginInput): LoginResponse
         getAllBlogs: [LocationBlog]
         getBlogByID(id: ID!): LocationBlog
-        getBlogsByAuthor(authorId: ID!): [LocationBlog]
+    }
+    
+    type Mutation{
+        createLocationBlog(input: LocationBlogInput): LocationBlog
+        createUser(input: UserInput): User
+        likeLocationBlog(blogId: ID! userId: ID!): LocationBlog
+        resetUsers: String
     }
     `);
 
@@ -81,10 +103,7 @@ const root = {
 		return userFacade.getAllUsers();
 	},
 	login: function({ input }) {
-		return loginFacade.login(input).then((data) => {
-			console.log(data);
-			return data;
-		});
+		return loginFacade.login(input);
 	},
 	getAllBlogs: function() {
 		return blogFacade.getAllBlogs();
@@ -92,8 +111,18 @@ const root = {
 	getBlogByID: function({ id }) {
 		return blogFacade.findById(id);
 	},
-	getBlogsByAuthor: function({ authorId }) {
-		return blogFacade.findByAuthorId(authorId);
+	createLocationBlog: function({ input }) {
+		return blogFacade.addBlog(input);
+	},
+	createUser: function({ input }) {
+		return userFacade.addUser(input);
+	},
+	likeLocationBlog: function({ userId, blogId }) {
+		return blogFacade.likeBlog(userId, blogId);
+	},
+	resetUsers: function() {
+		userFacade.makeUsers();
+		return "Users reset";
 	}
 };
 

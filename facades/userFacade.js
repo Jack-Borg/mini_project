@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const makeUsers = require("../makeUsers");
 
-function addUser(firstName, lastName, username, password, email) {
+function addUser({ firstName, lastName, username, password, email }) {
 	return new User({
 		firstName,
 		lastName,

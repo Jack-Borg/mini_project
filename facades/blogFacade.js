@@ -1,6 +1,7 @@
 const Blog = require("../models/locationBlog");
 
-function addBlog(info, img, pos, author) {
+function addBlog({ info, img, longitude, latitude, author }) {
+	const pos = { longitude, latitude };
 	return new Blog({ info, img, pos, author, lastUpdated: Date.now() }).save();
 }
 
@@ -13,9 +14,11 @@ function findById(_id) {
 }
 
 function findByAuthorId(author) {
-	// const b = Blog.findOne({ author });
-	// return b;
-	throw Error("no work");
+	console.log(author);
+	const b = Blog.findOne({ author });
+	// console.log(b);
+	return b;
+	// throw Error("no work");
 }
 
 function likeBlog(userId, blogId) {
