@@ -4,8 +4,11 @@ var { buildSchema } = require("graphql");
 const userFacade = require("../facades/userFacade");
 const loginFacade = require("../facades/loginFacade");
 const blogFacade = require("../facades/blogFacade");
+const { DateTime } = require("@okgrow/graphql-scalars");
 
 const schema = buildSchema(`
+    scalar DateTime
+
     type User{
         _id: ID
         firstName: String
@@ -13,8 +16,8 @@ const schema = buildSchema(`
         username: String
         email: String
         job: [Job]
-        created: String
-        lastUpdated: String
+        created: DateTime
+        lastUpdated: DateTime
     }
 
     type Job{
@@ -36,8 +39,8 @@ const schema = buildSchema(`
         author: ID!
         likedBy: [ID]
         likedByCount: Int
-        created: String
-        lastUpdated: String
+        created: DateTime
+        lastUpdated: DateTime
     }
     
     type Position{
@@ -93,6 +96,7 @@ const schema = buildSchema(`
     `);
 
 const root = {
+	DateTime,
 	getUserById: function({ id }) {
 		return userFacade.findById(id);
 	},
