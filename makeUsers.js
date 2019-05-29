@@ -1,5 +1,5 @@
-const dbConnect = require("./dbConnect");
-dbConnect(require("./settings").DEV_DB_URI);
+// const dbConnect = require("./dbConnect");
+// dbConnect(require("./settings").DEV_DB_URI);
 
 const User = require("./models/user.js");
 const LocationBlog = require("./models/locationBlog.js");
