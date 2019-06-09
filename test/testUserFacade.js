@@ -54,7 +54,13 @@ describe("User Facade Test", function() {
 	});
 
 	it("Should add a new user", async function() {
-		const newUser = await userFacade.addUser("test", "test", "test", "test", "test@test.test");
+		const newUser = await userFacade.addUser({
+			firstName: "test",
+			lastName: "test",
+			username: "test",
+			password: "test",
+			email: "test@test.test"
+		});
 		const getUser = await userFacade.findById(newUser._id);
 		expect(newUser).to.not.be.null;
 		expect(newUser.username).to.be.equal(getUser.username);

@@ -64,12 +64,13 @@ describe("Blog Facade Test", function() {
 	});
 
 	it("Should add new blog", async function() {
-		const newBlog = await blogFacade.addBlog(
-			"Added place",
-			"test img",
-			{ longitude: 10, latitude: 10 },
-			users[0]._id
-		);
+		const newBlog = await blogFacade.addBlog({
+			info: "Added place",
+			img: "test img",
+			longitude: 10,
+			latitude: 10,
+			author: users[0]._id
+		});
 		const getBlog = await blogFacade.findById(newBlog._id);
 		expect(newBlog).to.not.be.null;
 		expect(newBlog.info).to.be.equal(getBlog.info);
