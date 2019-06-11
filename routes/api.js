@@ -6,7 +6,7 @@ const blogFacade = require("../facades/blogFacade");
 
 router.post("/login", async function(req, res, next) {
 	const { username, password, longitude, latitude, distance } = req.body;
-	const response = await loginFacade.login(username, password, longitude, latitude, distance);
+	const response = await loginFacade.login({ username, password, longitude, latitude, distance });
 	res.statusCode = response.statusCode;
 	// res.json({ user: response.user, friends: response.friends, msg: response.msg });
 	res.json(({ user, friends, msg } = response));
@@ -29,7 +29,7 @@ router.get("/user/id", async function(req, res, next) {
 
 router.post("/user/add", async function(req, res, next) {
 	const { firstName, lastName, username, password, email } = req.body;
-	res.json({ user: userFacade.addUser(firstName, lastName, username, password, email) });
+	res.json({ user: userFacade.addUser({ firstName, lastName, username, password, email }) });
 });
 
 router.get("/user/reset", async function(req, res, next) {
@@ -48,7 +48,8 @@ router.get("/blog/id", async function(req, res, next) {
 
 router.post("/blog/add", async function(req, res, next) {
 	const { info, img, pos, author } = req.body;
-	res.json({ blog: await blogFacade.addBlog(info, img, pos, author) });
+	const { longitude, latitude } = pos;
+	res.json({ blog: await blogFacade.addBlog({ info, img, longitude, latitude, author }) });
 });
 
 router.post("/blog/like", async function(req, res, next) {
